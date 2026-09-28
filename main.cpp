@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include "input.h"
+#include "VectorContainer.h"
 
 using namespace std;
 
@@ -73,6 +74,8 @@ void vectorContainer()
 	bool running = true;
 	char option;
 
+    VectorContainer numbers; 
+
     while (running)
     {
 		system("cls");
@@ -108,17 +111,52 @@ void vectorContainer()
         switch (option)
         {
         case 'A':
-            cout << "clear() selected.\n";
+        {
+            numbers.clear();
+
+            cout << "\n\tThe vector has been cleared.\n\n";
+
+            system("pause");
             break;
+        }
         case 'B':
-            cout << "reserve(n) selected.\n";
+        {
+            int capacity = inputInteger("\n\t\tEnter the capacity(1..100): ", 1, 100);
+
+            numbers.reserve(capacity);
+
+            cout << "\n\t\tThe vector has been reserved " << capacity << " elements.\n\n";
+
+            system("pause");
             break;
+        }
         case 'C':
-            cout << "resize(n) selected.\n";
+        {
+            int newSize = inputInteger("\n\t\tEnter the new size(1..100): ", 1, 100);
+            numbers.resize(newSize);
+            cout << "\n\t\tThe vector has been resized to " << newSize << " elements.\n\n";
+            system("pause");
             break;
+        }
         case 'D':
-            cout << "Read input.dat and push_back(e) selected.\n";
+        {
+            string fileName = "INPUT.DAT";
+
+            if (!numbers.readFile(fileName))
+            {
+                cout << "\n\tThe input file, " << fileName << ", does not exist.\n\n";
+            }
+            else
+            {
+                numbers.display();
+                cout << "\n";
+            }
+
+            system("pause");
             break;
+        }
+
+
         case 'E':
             cout << "pop_back() selected.\n";
             break;

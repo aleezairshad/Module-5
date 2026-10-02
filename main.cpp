@@ -7,6 +7,8 @@
 #include "input.h"
 #include "VectorContainer.h"
 
+#include "Application.h"    
+
 using namespace std;
 // Function prototypes
 char menuOption(); 
@@ -551,11 +553,13 @@ void listContainer()
     }
 }
 
-
+//precondition: none
+//postcondition: Displays the application menu and allows the user to perform various operations on an Application object that manages integers. The user can choose from options such as adding an integer, deleting an integer, displaying input integers, and displaying frequencies of integers.
 void application()
 {
     bool running = true;
     char option;
+	Application numbers; // Create an Application object to manage integers
     while (running)
     {
         system("cls");
@@ -571,18 +575,49 @@ void application()
         option = toupper(inputChar("\n\t\tOption: ", static_cast<string>("A,B,C,D,0")));
         switch (option)
         {
-            case 'A':
-                
-                break;
-            case 'B':
-               
-                break;
-            case 'C':
-       
-                break;
-            case 'D':
-       
-                break;
+        case 'A':
+        {
+			int number = inputInteger("\n\t\tAdd an integer: ", 0, 100); // Prompt the user to enter an integer between 0 and 100
+			numbers.add(number); // Add the entered integer to the Application object
+            cout << "\n";
+            system("pause");
+            break;
+        }
+        case 'B':
+        {
+			// Check if the vector is empty before attempting to delete an integer
+            if (numbers.empty())
+            {
+                cout << "\n\t\tVector is empty.";
+            }
+            else
+            {
+				int number = inputInteger("\n\t\tDelete an integer: ", 0, 100); // Prompt the user to enter an integer between 0 and 100 to delete
+				// Attempt to remove the entered integer from the Application object
+                if (!numbers.remove(number))
+                {
+                    cout << "\n\t\tVector does not contain " << number << ".";
+                }
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+
+        case 'C':
+        {
+			numbers.display(); // Display the input integers stored in the Application object
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'D':
+        {
+			numbers.displayFrequencies(); // Display the frequencies of integers stored in the Application object
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
             case '0':
                 running = false;
                 cout << "\n";

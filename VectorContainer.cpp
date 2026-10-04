@@ -315,7 +315,8 @@ bool VectorContainer::empty() const
 //postcondition: The contents of the Record object entry are displayed in the format "first second number", where first and second are strings and number is an integer. The output is sent to the standard output stream (cout).
 void VectorContainer::displayRecord(const Record& entry) const
 {
-    cout << entry.first << ' ' << entry.second << ' ' << entry.number;
+    //cout << entry.first << ' ' << entry.second << ' ' << entry.number;
+	cout << entry.first << ", " << entry.second << ", " << entry.number;
 }
 
 // Display all vector elements
@@ -346,17 +347,95 @@ bool VectorContainer::readFile(const string& fileName)
         return false;
     }
 
-    Record entry;
+    string first;
+    string second;
+    int number;
 
-    while (inputFile >> entry.first >> entry.second >> entry.number)
+    while (inputFile >> first >> second >> number)
     {
+        if (!first.empty() && first.back() == ',')
+        {
+            first.pop_back();
+        }
+
+        if (!second.empty() && second.back() == ',')
+        {
+            second.pop_back();
+        }
+
+        Record entry(first, second, number);
         data.push_back(entry);
     }
 
     inputFile.close();
-
     return true;
 }
+
+//bool VectorContainer::readFile(const string& fileName)
+//{
+//    ifstream inputFile(fileName);
+//
+//    if (!inputFile)
+//    {
+//        return false;
+//    }
+//
+//    string line;
+//
+//    while (getline(inputFile, line))
+//    {
+//        // Must have at least one comma
+//        size_t comma1 = line.find(',');
+//
+//        if (comma1 == string::npos)
+//        {
+//            continue;
+//        }
+//
+//        string first = line.substr(0, comma1);
+//        string rest = line.substr(comma1 + 1);
+//
+//        // Remove leading space
+//        if (!rest.empty() && rest[0] == ' ')
+//        {
+//            rest.erase(0, 1);
+//        }
+//
+//        size_t comma2 = rest.find(',');
+//
+//        string second;
+//        int number = 0;
+//
+//        if (comma2 != string::npos)
+//        {
+//            // Normal: John, Smith, 10
+//            second = rest.substr(0, comma2);
+//
+//            string numberString = rest.substr(comma2 + 1);
+//
+//            if (!numberString.empty() && numberString[0] == ' ')
+//            {
+//                numberString.erase(0, 1);
+//            }
+//
+//            number = stoi(numberString);
+//        }
+//        else
+//        {
+//    
+//            second = rest;
+//            number = 0;
+//        }
+//
+//        Record entry(first, second, number);
+//        data.push_back(entry);
+//    }
+//
+//    inputFile.close();
+//
+//    return true;
+//}
+
 
 //precondition: The VectorContainer class has a private member variable data, which is a vector of Record objects. The getAddress(int index) function is called on an instance of the VectorContainer class with an integer index as an argument.
 //postcondition: The function returns a pointer to the Record object at the specified index in the data vector. If the index is out of bounds (negative or greater than or equal to the size of the vector), the function returns a nullptr. The returned pointer can be used to access the memory address of the Record object at the specified index.

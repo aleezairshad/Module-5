@@ -1,12 +1,12 @@
 //Name: Hany, Aleeza, and Thanh
-// Date: 9/30/2026
+// Date: 10/05/2026
 // Description: Module 5 - Linked List 
 
 #include <iostream>
 #include <iomanip>
 #include "input.h"
 #include "VectorContainer.h"
-
+#include "ListContainer.h"
 #include "Application.h"    
 
 using namespace std;
@@ -365,23 +365,23 @@ void vectorContainer()
             {
 
                 name = inputString("\n\tEnter a new student name: ", true);
-				name += ","; // Append a comma to the name
+				//name += ","; // Append a comma to the name
 
                 levelNumber = inputInteger("\tEnter the his/her level (1-Freshman, 2-Sophmore, 3-Junior, or 4-Senior): ", 1, 4);
 				// Use a switch statement to determine the student's level based on the level number
                 switch (levelNumber)
                 {
                 case 1:
-                    level = "Freshman,";
+                    level = "Freshman";
                     break;
                 case 2:
-                    level = "Sophmore,";
+                    level = "Sophmore";
                     break;
                 case 3:
-                    level = "Junior,";
+                    level = "Junior";
                     break;
                 case 4:
-                    level = "Senior,";
+                    level = "Senior";
                     break;
                 }
 				// Prompt the user to enter the student's GPA and validate it within the range of 0.0 to 4.0
@@ -443,11 +443,13 @@ void vectorContainer()
 
 }
 
-
+//precondition: none
+//postcondition: Displays the list container menu and allows the user to perform various operations on a ListContainer object. The user can choose from options such as clearing the list, resizing, reading from a file, adding/removing elements, accessing elements, iterating through the list, erasing elements, inserting new entries, swapping contents with another list, and sorting the list. The function continues to display the menu until the user chooses to return to the main menu.
 void listContainer()
 {
     bool running = true;
     char option;
+	ListContainer records; // Create an instance of ListContainer to store Record objects
 
     while (running)
     {
@@ -456,100 +458,362 @@ void listContainer()
         cout << "\tsequence, and iteration in both directions.";
         cout << "\n\n\t2> List container";
         cout << "\n\t" << string(105, char(205));
-		cout << "\n\t\tA> clear() - Destroys all elements from the list";
-		cout << "\n\t\tB> resize(n) - Changes the list so that it contains n elements";
-		cout << "\n\t\tC> Read input.dat and push_front(e) - Adds a new element at the front of the list";
-		cout << "\n\t\tD> pop_front() - Deletes the first element";
-		cout << "\n\t\tE> front() - Accesses the first element";
-		cout << "\n\t\tF> Read input.dat and push_back(e) - Adds a new element at the end of the list";
-		cout << "\n\t\tG> pop_back() - Delete the last element";
-		cout << "\n\t\tH> back() Accesses the last element";
-		cout << "\n\t\tI> begin() - Returns an iterator refereing to the first element in the list";
-		cout << "\n\t\tJ> end() Returns an iterator referring to the past-the-end element in the list";
-		cout << "\n\t\tK> Using iterator begin() and end() returns all elements in the list";
-		cout << "\n\t\tL> rbegin() - Returns a reverse iterator pointing to the last element in the list";
+        cout << "\n\t\tA> clear() - Destroys all elements from the list";
+        cout << "\n\t\tB> resize(n) - Changes the list so that it contains n elements";
+        cout << "\n\t\tC> Read input.dat and push_front(e) - Adds a new element at the front of the list";
+        cout << "\n\t\tD> pop_front() - Deletes the first element";
+        cout << "\n\t\tE> front() - Accesses the first element";
+        cout << "\n\t\tF> Read input.dat and push_back(e) - Adds a new element at the end of the list";
+        cout << "\n\t\tG> pop_back() - Delete the last element";
+        cout << "\n\t\tH> back() Accesses the last element";
+        cout << "\n\t\tI> begin() - Returns an iterator referring to the first element in the list";
+        cout << "\n\t\tJ> end() Returns an iterator referring to the past-the-end element in the list";
+        cout << "\n\t\tK> Using iterator begin() and end() returns all elements in the list";
+        cout << "\n\t\tL> rbegin() - Returns a reverse iterator pointing to the last element in the list";
         cout << "\n\t\tM> rend() - Returns a reverse iterator pointing to the element preceding the first element";
-		cout << "\n\t\t\t    in the list";
-		cout << "\n\t\tN> Using iterator rbegin() and rend() returns all elements in the list";
-		cout << "\n\t\tO> erase(it) - Removes from the vector a single element(using an iterator)";
-		cout << "\n\t\tP> erase(start_it,end_it) - Removes from the vector a range of elements( using iterators)";
-		cout << "\n\t\tQ> insert(it, entry) - Insert a new entry at the iterator.";
-		cout << "\n\t\tR> swap() - Exchanges the content of the container by another list's content of the same type";
-		cout << "\n\t\tS> Sort - Sorts the list.";
-		cout << "\n\t" << string(105, char(196));
-		cout << "\n\t\t0> return";
-		cout << "\n\t" << string(105, char(205));
-		option = toupper(inputChar("\n\t\tOption: ", static_cast<string>("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,0")));
+        cout << "\n\t\t\t    in the list";
+        cout << "\n\t\tN> Using iterator rbegin() and rend() returns all elements in the list";
+        cout << "\n\t\tO> erase(it) - Removes from the vector a single element(using an iterator)";
+        cout << "\n\t\tP> erase(start_it,end_it) - Removes from the vector a range of elements( using iterators)";
+        cout << "\n\t\tQ> insert(it, entry) - Insert a new entry at the iterator.";
+        cout << "\n\t\tR> swap() - Exchanges the content of the container by another list's content of the same type";
+        cout << "\n\t\tS> Sort - Sorts the list.";
+        cout << "\n\t" << string(105, char(196));
+        cout << "\n\t\t0> return";
+        cout << "\n\t" << string(105, char(205));
+        option = toupper(inputChar("\n\t\tOption: ", static_cast<string>("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,0")));
 
         switch (option)
         {
-            case 'A':
- 
-			break;
-            case 'B':
-	
-                break;
-            case 'C':
-              
-                break;
-            case 'D':
-               
-                break;
-            case 'E':
-               
-                break;
-            case 'F':
-              
-                break;
-            case 'G':
-               
-                break;
-            case 'H':
-              
-                break;
-            case 'I':
-               
-                break;
-            case 'J':
-               
-                break;
-            case 'K':
-              
-                break;
-            case 'L':
-               
-                break;
-            case 'M':
-               
-                break;
-            case 'N':
-               
-                break;
-            case 'O':
-              
-                break;
-            case 'P':
-               
-                break;
-            case 'Q':
-               
-                break;
-            case 'R':
-               
-                break;
-            case 'S':
-				
-                break;
-            case '0':
-                running = false;
-				cout << "\n";
-				system("pause");
-                break;
-            default:
-                cout << "Invalid option. Please try again.\n";
-				break;
+        case 'A':
+        {
+            records.clear();
+            cout << "\n\tThe list has been cleared.\n\n";
+            system("pause");
+            break;
         }
-       
+        case 'B':
+        {
+			// Prompt the user to enter the new size for the list
+            int newSize = inputInteger("\n\tEnter the new size(1..100): ", 1, 100);
+			records.resize(newSize); // Resize the list to the new size
+            cout << "\n\tThe list has been resized to " << newSize << " elements.\n\n";
+            system("pause");
+            break;
+        }
+        case 'C':
+        {
+			// Read the input file and add each Record to the front of the list
+            string fileName = "INPUT.DAT";
+            if (!records.readFileFront(fileName))
+            {
+                cout << "\n\tThe input file, " << fileName << ", does not exist.\n\n";
+            }
+            else
+            {
+                records.display();
+                cout << "\n";
+            }
+            system("pause");
+            break;
+        }
+        case 'D':
+        {
+			// Remove the first element from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                Record removed = records.front();
+                records.popFront();
+                cout << "\n\tFirst element, (";
+                records.displayRecord(removed);
+                cout << "), has been removed from the list.\n";
+                records.display();
+            }
+            cout << "\n";
+            system("pause");
+            break;
+        }
+        case 'E':
+        {
+			// Access the first element from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                Record first = records.front();
+                cout << "\n\tFirst element from the list is (";
+				records.displayRecord(first); // Display the first element
+                cout << ").";
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'F':
+        {
+			// Read the input file and add each Record to the back of the list
+            string fileName = "INPUT.DAT";
+            if (!records.readFileBack(fileName))
+            {
+                cout << "\n\tThe input file, " << fileName << ", does not exist.\n\n";
+            }
+            else
+            {
+                records.display();
+                cout << "\n";
+            }
+            system("pause");
+            break;
+        }
+        case 'G':
+        {
+			// Remove the last element from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                Record removed = records.back();
+                records.popBack();
+                cout << "\n\tLast element, (";
+                records.displayRecord(removed);
+                cout << "), has been removed from the list.\n";
+                records.display();
+            }
+            cout << "\n";
+            system("pause");
+            break;
+        }
+        case 'H':
+        {
+			// Access the last element from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                Record last = records.back();
+                cout << "\n\tLast element from the list is (";
+                records.displayRecord(last);
+                cout << ").";
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'I':
+        {
+			// Access the first element from the list using an iterator
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tThe iterator referring the first element: ";
+                records.displayBegin();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'J':
+        {
+			// Access the past-the-end element from the list using an iterator
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tThe iterator referring to the past-the-end element: ";
+                records.displayEnd();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'K':
+        {
+			// Display all elements in the list using begin() and end() iterators
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tUsing begin() and end(), the list contains:";
+                records.displayForward();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'L':
+        {
+			// Access the last element from the list using a reverse iterator
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tThe iterator referring the reverse first element: ";
+                records.displayRBegin();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'M':
+        {
+			// Access the theoretical element preceding the first element from the list using a reverse iterator
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tThe iterator referring to the reverse past-the-end element: ";
+                records.displayREnd();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'N':
+        {
+			// Display all elements in the list in reverse order using rbegin() and rend() iterators
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                cout << "\n\tUsing rbegin() and rend(), the list contains:";
+                records.displayReverse();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'O':
+        {
+			// Remove the element after the begin iterator from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else if (records.size() > 1)
+            {
+                cout << "\n\tAn element after the begin iterator " << records.getBeginAddress() << " has been removed.";
+                records.eraseAfterBegin();
+            }
+            else
+            {
+                cout << "\n\tThere is no element after the begin iterator.";
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'P':
+        {
+			// Remove all elements from the list
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                records.eraseAll();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'Q':
+        {
+			// Prompt the user to enter a new student record and insert it after the begin iterator in the list
+            string name;
+            string level;
+            int levelNumber;
+            double gpa;
+
+            name = inputString("\n\tEnter a new student name: ", true);
+            //name += ",";
+            levelNumber = inputInteger("\tEnter the his/her level (1-Freshman, 2-Sophmore, 3-Junior, or 4-Senior): ", 1, 4);
+            switch (levelNumber)
+            {
+            case 1:
+                level = "Freshman";
+                break;
+            case 2:
+                level = "Sophmore";
+                break;
+            case 3:
+                level = "Junior";
+                break;
+            case 4:
+                level = "Senior";
+                break;
+            }
+
+            gpa = inputDouble("\tEnter his/her GPA (0.0..4.0): ", 0.0, 4.0);
+            Record entry(name, level, static_cast<int>(gpa));
+            records.insertAfterBegin(entry);
+           // cout << "\n\tThe new element has been inserted after the begin iterator.";
+			cout << "\n\tThe new element has been inserted at the begin iterator.";
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'R':
+        {
+			// Swap the contents of the list with another ListContainer's contents of the same type
+            ListContainer l2;
+            cout << "\n\tlist (l2) is initially empty.";
+            records.swap(l2);
+            cout << "\n\n\tlist (l1) is empty after swapped with list (l2).";
+            cout << "\n\n\tlist (l2) now has " << l2.size() << " element(s).";
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case 'S':
+        {
+			// Sort the list in ascending order based on the number field of the Record objects
+            if (records.empty())
+            {
+                cout << "\n\tThe list is empty.";
+            }
+            else
+            {
+                records.sort();
+                records.display();
+            }
+            cout << "\n\n";
+            system("pause");
+            break;
+        }
+        case '0':
+            running = false;
+            cout << "\n";
+            system("pause");
+            break;
+        default:
+            cout << "Invalid option. Please try again.\n";
+            break;
+        }
+
     }
 }
 
@@ -579,7 +843,7 @@ void application()
         {
 			int number = inputInteger("\n\t\tAdd an integer: ", 0, 100); // Prompt the user to enter an integer between 0 and 100
 			numbers.add(number); // Add the entered integer to the Application object
-            cout << "\n";
+			cout << "\n\t\t" << number << " has been added to the vector.\n\n";
             system("pause");
             break;
         }
@@ -598,6 +862,10 @@ void application()
                 {
                     cout << "\n\t\tVector does not contain " << number << ".";
                 }
+                else
+                {
+                    cout << "\n\t\t" << number << " has been removed from the vector.";
+				}
             }
             cout << "\n\n";
             system("pause");

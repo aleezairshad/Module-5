@@ -151,7 +151,8 @@ void VectorContainer::displayRBegin() const
     {
         vector<Record>::const_reverse_iterator it = data.rbegin();
 
-        cout << static_cast<const void*>(&it) << "(";
+		//cout << static_cast<const void*>(&it) << "("; // Display the address of the reverse iterator itself
+		cout << static_cast<const void*>(&(*it)) << "("; // Display the address of the current element in the reverse iteration
         displayRecord(*it);
         cout << ")";
     }
@@ -166,7 +167,7 @@ void VectorContainer::displayREnd() const
     {
         vector<Record>::const_reverse_iterator it = data.rend();
 
-        cout << static_cast<const void*>(&it);
+		cout << static_cast<const void*>(&it); // Display the address of the reverse iterator itself
     }
 }
 
@@ -177,7 +178,8 @@ void VectorContainer::displayReverse() const
 {
     for (vector<Record>::const_reverse_iterator it = data.rbegin(); it != data.rend(); ++it)
     {
-        cout << "\n\t\t" << static_cast<const void*>(&it) << " (";
+		//cout << "\n\t\t" << static_cast<const void*>(&it) << " ("; // Display the address of the reverse iterator itself
+		cout << "\n\t\t" << static_cast<const void*>(&(*it)) << " ("; // Display the address of the current element in the reverse iteration
         displayRecord(*it);
         cout << ")";
     }
